@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Oxide Studios - Storytelling & Visual Arts Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset and basics */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #0b0b0b;
+      color: #eee;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      color: #e63946;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover,
+    a:focus {
+      color: #f44336;
+      outline: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+      border-radius: 8px;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      width: 100%;
+      background-color: #111;
+      border-bottom: 2px solid #e63946;
+      z-index: 999;
+      top: 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #e63946;
+      letter-spacing: 2px;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      background-color: transparent;
+      user-select: none;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background-color: #e63946;
+      color: #111;
+    }
+
+    /* Mobile Nav */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 26px;
+      height: 22px;
+      cursor: pointer;
+    }
+
+    .menu-toggle div {
+      width: 100%;
+      height: 3px;
+      background-color: #e63946;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 56px;
+        right: 0;
+        background-color: #111;
+        flex-direction: column;
+        width: 200px;
+        height: calc(100% - 56px);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        padding-top: 1rem;
+      }
+
+      .nav-links.open {
+        transform: translateX(0);
+      }
+
+      .nav-links a {
+        padding: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    /* Sections */
+    section {
+      padding: 100px 20px 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Montserrat', sans-serif;
+      color: #e63946;
+      letter-spacing: 1.5px;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    p {
+      color: #ddd;
+      margin-bottom: 1rem;
+    }
+
+    /* Buttons */
+    .btn {
+      background-color: #e63946;
+      color: #111;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      text-align: center;
+      user-select: none;
+    }
+
+    .btn:hover,
+    .btn:focus {
+      background-color: #f44336;
+      outline: none;
+    }
+
+    /* Hero */
+    #home {
+      position: relative;
+      height: 90vh;
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80') no-repeat center center/cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+      color: #eee;
+    }
+
+    #home::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(11, 11, 11, 0.8);
+      z-index: 0;
+    }
+
+    #home > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    #home h1 {
+      font-size: 4rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 8px #e63946aa;
+    }
+
+    #home p {
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+      text-shadow: 0 0 6px #000;
+    }
+
+    /* About */
+    #about .team {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .team-member {
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 8px;
+      max-width: 280px;
+      text-align: center;
+      box-shadow: 0 0 10px #e63946aa;
+    }
+
+    .team-member img {
+      border-radius: 50%;
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      border: 2px solid #e63946;
+    }
+
+    .team-member h4 {
+      margin-bottom: 0.25rem;
+    }
+
+    .team-member p {
+      color: #bbb;
+      font-size: 0.95rem;
+    }
+
+    /* Services */
+    #services .services-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .service-card {
+      background: #1a1a1a;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #e6394677;
+      cursor: default;
+      border: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    .service-card:hover {
+      border-color: #e63946;
+    }
+
+    .service-card h3 {
+      margin-bottom: 0.8rem;
+      font-weight: 700;
+    }
+
+    .service-card p {
+      font-size: 0.95rem;
+      color: #ddd;
+    }
+
+    /* Portfolio */
+    #portfolio .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .portfolio-item {
+      background: #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #e6394677;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .portfolio-item:hover {
+      transform: scale(1.03);
+    }
+
+    .portfolio-item img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .portfolio-item-info {
+      padding: 0.75rem 1rem;
+      color: #ddd;
+      flex-grow: 1;
+    }
+
+    .portfolio-item-info h4 {
+      margin-bottom: 0.2rem;
+      font-weight: 700;
+    }
+
+    .portfolio-item-info p {
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+
+    /* Originals */
+    #originals .original {
+      display: flex;
+      gap: 2rem;
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 10px #e6394677;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    #originals .original img {
+      flex-shrink: 0;
+      width: 180px;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px #e63946bb;
+    }
+
+    #originals .original-content {
+      flex: 1 1 300px;
+      color: #ddd;
+    }
+
+    #originals .original-content h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    #originals .original-content p {
+      margin-bottom: 1rem;
+    }
+
+    #originals .original-content .btn {
+      margin-top: 0;
+    }
+
+    /* Shop */
+    #shop .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .product-card {
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 10px #e6394677;
+      transition: transform 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.05);
+    }
+
+    .product-img {
+      height: 220px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px #e63946cc;
+    }
+
+    .product-info {
+      flex-grow: 1;
+      color: #ddd;
+      font-size: 0.95rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-info h4 {
+      margin-bottom: 0.6rem;
+      font-weight: 700;
+      color: #e63946;
+    }
+
+    .price {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #f44336;
+    }
+
+    .product-card .btn {
+      align-self: center;
+      font-weight: 700;
+      background-color: #bb1414;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+    }
+
+    .product-card .btn:hover {
+      background-color: #d42b2b;
+    }
+
+    /* Contact & Create With Us Forms */
+    form {
+      background: #1a1a1a;
+      padding: 1.5rem 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 0 15px #e6394622;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: #e63946;
+      font-weight: 700;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    form button {
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #f44336;
+    }
+
+    /* Call to Action Section */
+    #cta {
+      background-color: #e63946;
+      color: #111;
+      padding: 4rem 2rem;
+      text-align: center;
+      border-radius: 10px;
+      margin: 3rem 1rem;
+      box-shadow: 0 0 20px #f44336;
+    }
+
+    #cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    #cta p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      font-weight: 600;
+    }
+
+    #cta .btn {
+      font-size: 1.2rem;
+      padding: 1rem 2.5rem;
+      border-radius: 40px;
+      font-weight: 900;
+      box-shadow: 0 0 10px #b92929;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1rem 1rem 3rem;
+      font-size: 0.9rem;
+      color: #555;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <nav aria-label="Main navigation">
+    <div class="nav-container">
+      <div class="nav-logo" tabindex="0" role="link" aria-label="Go to Home" onclick="scrollToSection('home')">
+        <img src="img/oxide studios logo.jpg" alt="Oxide Studios Logo" style="height: 60px; width: 60px;"/>
+      </div>
+      <div class="menu-toggle" aria-label="Toggle menu" role="button" tabindex="0" id="menuToggle" aria-expanded="false">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#about" class="nav-link">About Us</a>
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#portfolio" class="nav-link">Portfolio</a>
+        <a href="#originals" class="nav-link">Originals</a>
+        <a href="#shop" class="nav-link">Shop</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#create" class="nav-link">Create With Us</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Home Section -->
+  <section id="home" aria-label="Home">
+    <h1>Welcome to Oxide Studios</h1>
+    <p>Where Stories Come to Life — Crafting Original Stories, Illustrations, and Webtoons</p>
+    <button class="btn" onclick="scrollToSection('portfolio')">Explore Our Work</button>
+  </section>
+
+  <!-- About Us -->
+  <section id="about" aria-label="About Oxide Studios">
+    <h2>About Oxide Studios</h2>
+    <p>
+      Oxide Studios is a creative powerhouse founded by Emty (Shubhadeep) and co-founded by Rash. We specialize in crafting original stories, illustrations, and webtoons, and offer services for writers and publishers to bring their visions to life with passion and precision.
+    </p>
+    <div class="team" role="list">
+      <div class="team-member" role="listitem" tabindex="0">
+        <img src="https://i.pravatar.cc/140?img=12" alt="Photo of Emty (Shubhadeep)" />
+        <h4>Emty (Shubhadeep)</h4>
+        <p>Founder & Lead Storyteller</p>
+      </div>
+      <div class="team-member" role="listitem" tabindex="0">
+        <img src="img/me-removebg-preview.png" alt="Photo of Rash" />
+        <h4>Rash</h4>
+        <p>Co-Founder & Visual Director</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" aria-label="Our Services">
+    <h2>Our Services</h2>
+    <div class="services-list">
+      <article class="service-card" tabindex="0" aria-label="Original Story Creation">
+        <h3>Original Story Creation</h3>
+        <p>Crafting unique and engaging stories tailored for various media and audiences.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Sanslation">
+        <h3>Sanslation</h3>
+        <p>A unique style of visual storytelling and adaptation that blends narrative and art.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Illustration Services">
+        <h3>Illustration Services</h3>
+        <p>Character designs, scenes, covers, and custom artwork for diverse projects.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Proofreading & Editing">
+        <h3>Proofreading & Editing</h3>
+        <p>Detailed editorial services to polish your writing and enhance your story's impact.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Art for Books, Manga, Webtoons">
+        <h3>Art for Books/Manga/Webtoons</h3>
+        <p>High-quality art tailored specifically for books, manga, and webtoon publications.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Webtoon Creation">
+        <h3>Webtoon Creation</h3>
+        <p>Complete webtoon creation including storyboarding, illustration, and publishing.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Publishing Oxide Originals">
+        <h3>Publishing Oxide Originals</h3>
+        <p>Bringing original Oxide Studios stories and art to the world through publishing.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Selling Oxide Original Books and Manga">
+        <h3>Selling Oxide Original Books/Manga</h3>
+        <p>Offering works such as Uncrossed Paths and Dusk Blade for sale to fans and collectors.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Artist Hiring Opportunities">
+        <h3>Artist Hiring Opportunities</h3>
+        <p>Looking for talented artists to join our team and contribute to exciting projects.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Collaboration Options">
+        <h3>Collaboration Options: Create With Us!</h3>
+        <p>Join hands with Oxide Studios for groundbreaking storytelling and creative projects.</p>
+      </article>
+    </div>
+    <div style="margin-top: 2rem; text-align: center;">
+      <a href="#create" class="btn">Create With Us</a>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio" aria-label="Portfolio">
+    <h2>Portfolio</h2>
+    <p>Explore our visual storytelling through illustrations, webtoon panels, and covers.</p>
+    <div class="grid" role="list">
+      <div class="portfolio-item" tabindex="0" role="listitem" aria-label="Illustration of a fantasy character">
+        <img src="img/download.jpeg" alt="Fantasy character illustration" />
+        <div class="portfolio-item-info">
+          <h4>Fantasy Character Design</h4>
+          <p>An original character designed with vibrant colors and intricate details.</p>
+        </div>
+      </div>
+      <div class="portfolio-item" tabindex="0" role="listitem" aria-label="Webtoon scene panel">
+        <img src="img/Nakama Forever.jpeg" alt="Webtoon scene panel" />
+        <div class="portfolio-item-info">
+          <h4>Webtoon Scene</h4>
+          <p>A dramatic panel showcasing a tense moment in the storyline.</p>
+        </div>
+      </div>
+      <div class="portfolio-item" tabindex="0" role="listitem" aria-label="Cover art for a graphic novel">
+        <img src="img/Nakama Forever.jpeg" alt="Cover art for a graphic novel" />
+        <div class="portfolio-item-info">
+          <h4>Graphic Novel Cover</h4>
+          <p>Eye-catching cover art designed to captivate readers at first glance.</p>
+        </div>
+      </div>
+      <div class="portfolio-item" tabindex="0" role="listitem" aria-label="Illustration of a mystical scene">
+        <img src="img/dusk blade cover.jpg" alt="Mystical scene illustration" />
+        <div class="portfolio-item-info">
+          <h4>Mystical Scene</h4>
+          <p>An atmospheric illustration filled with magic and wonder.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Originals -->
+  <section id="originals" aria-label="Oxide Originals - Published Titles">
+    <h2>Oxide Originals</h2>
+    <p>Featuring our published titles available for readers and collectors.</p>
+
+    <div class="original" tabindex="0" aria-label="Book titled Uncrossed Paths">
+      <img src="img/Uncrossed Paths (1).jpg" alt="Uncrossed Paths book cover" />
+      <div class="original-content">
+        <h3>Uncrossed Paths</h3>
+        <p>A deep, captivating story exploring fate and choice through beautifully illustrated manga.</p>
+        <a href="#shop" class="btn">Buy Now</a>
+      </div>
+    </div>
+
+    <div class="original" tabindex="0" aria-label="Book titled Dusk Blade">
+      <img src="img/dusk blade cover.jpg" alt="Dusk Blade book cover" />
+      <div class="original-content">
+        <h3>Dusk Blade</h3>
+        <p>An epic tale of warriors and destiny, brought to life with dazzling artwork and storytelling.</p>
+        <a href="#shop" class="btn">Buy Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop -->
+  <section id="shop" aria-label="Shop Oxide Original Books, Manga, and Webtoons">
+    <h2>Shop</h2>
+    <p>Browse and purchase Oxide Original manga, books, and webtoons.</p>
+    <div class="products">
+      <article class="product-card" tabindex="0" aria-label="Buy Uncrossed Paths manga for $14.99">
+        <img src="img/Uncrossed Paths (1).jpg" alt="Uncrossed Paths book cover" class="product-img" />
+        <div class="product-info">
+          <h4>Uncrossed Paths</h4>
+          <div class="price">$14.99</div>
+          <button class="btn" aria-label="Add Uncrossed Paths to cart" onclick="alert('Added Uncrossed Paths to cart!')">Add to Cart</button>
+        </div>
+      </article>
+      <article class="product-card" tabindex="0" aria-label="Buy Dusk Blade manga for $16.99">
+        <img src="img/dusk blade cover.jpg" alt="Dusk Blade book cover" class="product-img" />
+        <div class="product-info">
+          <h4>Dusk Blade</h4>
+          <div class="price">$16.99</div>
+          <button class="btn" aria-label="Add Dusk Blade to cart" onclick="alert('Added Dusk Blade to cart!')">Add to Cart</button>
+        </div>
+      </article>
+      <article class="product-card" tabindex="0" aria-label="Buy Dark Shadows Webtoon for $9.99">
+        <img src="img/Nakama Forever.jpeg" alt="Dark Shadows webtoon cover" class="product-img" />
+        <div class="product-info">
+          <h4>Dark Shadows (Webtoon)</h4>
+          <div class="price">$9.99</div>
+          <button class="btn" aria-label="Add Dark Shadows webtoon to cart" onclick="alert('Added Dark Shadows to cart!')">Add to Cart</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" aria-label="Contact Oxide Studios">
+    <h2>Contact</h2>
+    <p>Get in touch with us for any inquiries, collaborations, or hiring opportunities.</p>
+    <form id="contactForm" aria-label="Contact form">
+      <label for="contact-name">Name</label>
+      <input type="text" id="contact-name" name="contact-name" placeholder="Your full name" required />
+      <label for="contact-email">Email</label>
+      <input type="email" id="contact-email" name="contact-email" placeholder="you@example.com" required />
+      <label for="contact-service">Interested Service</label>
+      <select id="contact-service" name="contact-service" required>
+        <option value="">Select a service</option>
+        <option value="story">Original Story Creation</option>
+        <option value="illustration">Illustration Services</option>
+        <option value="webtoon">Webtoon Creation</option>
+        <option value="editing">Proofreading & Editing</option>
+        <option value="collaboration">Collaboration</option>
+        <option value="other">Other</option>
+      </select>
+      <label for="contact-message">Message</label>
+      <textarea id="contact-message" name="contact-message" placeholder="Write your message here..." required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Create With Us -->
+  <section id="create" aria-label="Create With Us - Collaboration Page">
+    <div id="cta">
+      <h2>Create With Us</h2>
+      <p>Writers, artists, and publishers — let's bring your next big project to life with Oxide Studios.</p>
+      <button class="btn" onclick="document.getElementById('createForm').scrollIntoView({behavior:'smooth'})">Collaborate Now</button>
+    </div>
+    <form id="createForm" aria-label="Create With Us collaboration form" style="margin-top: 2rem;">
+      <label for="create-name">Your Name</label>
+      <input type="text" id="create-name" name="create-name" placeholder="Full name" required />
+      <label for="create-email">Email Address</label>
+      <input type="email" id="create-email" name="create-email" placeholder="you@example.com" required />
+      <label for="create-role">I am a</label>
+      <select id="create-role" name="create-role" required>
+        <option value="">Select your role</option>
+        <option value="writer">Writer</option>
+        <option value="artist">Artist</option>
+        <option value="publisher">Publisher</option>
+        <option value="other">Other</option>
+      </select>
+      <label for="create-project">Tell us about your project or idea</label>
+      <textarea id="create-project" name="create-project" placeholder="Briefly describe your project or collaboration idea" required></textarea>
+      <button type="submit" class="btn">Send Proposal</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 Oxide Studios. Crafted with passion and creativity.
+    <br>
+    Created By Rash
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', !expanded);
+      navLinks.classList.toggle('open');
+    });
+    menuToggle.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        menuToggle.click();
+      }
+    });
+
+    // Smooth scroll and active nav link highlight
+    const navLinkElements = document.querySelectorAll('.nav-link');
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({
+        behavior: 'smooth'
+      });
+      closeMobileMenu();
+    }
+    navLinkElements.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        scrollToSection(targetId);
+      });
+    });
+
+    function closeMobileMenu() {
+      if (navLinks.classList.contains('open')) {
+        navLinks.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    // Update active nav link on scroll
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY + 100;
+      navLinkElements.forEach(link => {
+        const section = document.querySelector(link.getAttribute('href'));
+        if (section.offsetTop <= scrollPos && (section.offsetTop + section.offsetHeight) > scrollPos) {
+          navLinkElements.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Form submissions handling (basic alerts)
+    document.getElementById('contactForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Thank you for contacting Oxide Studios! We will get back to you soon.');
+      e.target.reset();
+    });
+    document.getElementById('createForm').addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Thank you for your proposal! Oxide Studios looks forward to collaborating with you.');
+      e.target.reset();
+    });
+  </script>
+</body>
+
+</html>
